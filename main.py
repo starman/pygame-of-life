@@ -102,7 +102,7 @@ class Board():
 
                     
 pygame.init()
-pygame.display.set_caption('Conway\'s Game of Life')
+pygame.display.set_caption("Conway's Game of Life")
 
 WIDTH = 1200
 HEIGHT = 1200
