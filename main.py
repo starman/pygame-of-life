@@ -95,6 +95,11 @@ class Board():
 
         return new_grid
 
+    def clear(self):
+        for row in range(WIDTH//self.cell_size):
+            for column in range(HEIGHT//self.cell_size):
+                self.grid[row][column].set_dead()
+
                     
 pygame.init()
 pygame.display.set_caption('Conway\'s Game of Life')
@@ -124,6 +129,8 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 PLAYING = not PLAYING
+            if event.key == pygame.K_c:
+                game.clear()
 
     if PLAYING:
         game.grid = game.process()
