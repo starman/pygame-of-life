@@ -100,6 +100,38 @@ class Board():
             for column in range(HEIGHT//self.cell_size):
                 self.grid[row][column].set_dead()
 
+    def gosper(self):
+        pos = pygame.mouse.get_pos()
+        column = pos[0] // (self.cell_size + self.gridline)
+        row = pos[1] // (self.cell_size + self.gridline)
+
+        template = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                    [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                    [1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+
+        for i in range(9):
+            for j in range(36):
+                x = row+i-5
+                y = column+j-16
+                try:
+                    if(x >= 0 and y >= 0):
+                        if template[i][j] == 1:
+                            self.grid[row+i-5][column+j-16].set_alive()
+                        else:
+                            self.grid[row+i-5][column+j-16].set_dead()
+                except IndexError:
+                    pass
+                except Exception as e:
+                    print(e)
+                    
+
+
                     
 pygame.init()
 pygame.display.set_caption("Conway's Game of Life")
@@ -131,6 +163,8 @@ while True:
                 PLAYING = not PLAYING
             if event.key == pygame.K_c:
                 game.clear()
+            if event.key == pygame.K_x:
+                game.gosper()
 
     if PLAYING:
         game.grid = game.process()
